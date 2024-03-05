@@ -1,14 +1,17 @@
-const multer = require("multer")
-const path = require("path")
-const storege = multer.diskStorage({
+const multer = require("multer");
+const bodyParser = require("body-parser");
+
+const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, "uploads/")
+        cb(null, "uploads/");
     },
     filename: function(req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname))
+        cb(null, Date.now() + '-' + file.originalname);
     }
-})
+});
 
-const upload = multer({ storege })
+const upload = multer({ storage });
 
-module.exports = upload;
+const jsonParser = bodyParser.json();
+
+module.exports = { upload, jsonParser };
